@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+option csharp_namespace = "GrpcService";
+
+package grpcConfigService;
+
+service ConfigServer {
+  rpc RequestConfig (ConfigRequest) returns (ConfigResponse);
+  rpc RequestDomainConfigs (ConfigKeyRequest) returns (ConfigResponse);
+}
+
+enum EnumCategory {
+  BACKEND = 0;
+  FRONTEND = 1;
+}
+
+enum EnumEnvType {
+  ANY_ENV = 0;
+  DEV = 1;
+  STAGING = 2;
+  PRODUCTION = 3;
+}
+
+enum EnumDomain {
+  DEFAULT_DOMAIN = 0;
+  DOMAIN_1 = 1;
+  DOMAIN_2 = 2;
+  DOMAIN_3 = 3;
+  DOMAIN_4 = 4;
+}
+
+message ConfigKeyRequest {
+  EnumCategory category = 1;
+  EnumDomain domain = 2;
+  EnumEnvType envType = 3;
+  int32 envNumber = 4;
+  string key = 5;
+}
+
+message ConfigRequest {
+  repeated ConfigKeyRequest configKeys = 1;
+}
+
+message ConfigResponse {
+  map<string, string> configs = 1;
+}
